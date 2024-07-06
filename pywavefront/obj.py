@@ -311,6 +311,10 @@ class ObjParser(Parser):
         Vertex = namedtuple('Vertex', 'idx pos color uv normal')
         def emit_vertex(vertex):
             # Just yield all the values except for the index
+            yield vertex.t_index
+
+            yield vertex.n_index
+
             for v in vertex.uv:
                 yield v
 
@@ -355,8 +359,10 @@ class ObjParser(Parser):
 
         # Prepare vertex format string
         vertex_format = "_".join(e[0] for e in [
+            ("TIDX", has_vt),
             ("T2F", has_vt),
             ("C3F", has_colors),
+            ("NIDX", has_vn),
             ("N3F", has_vn),
             ("V3F", True)
         ] if e[1])
@@ -404,7 +410,9 @@ class ObjParser(Parser):
                     idx = v_index,
                     pos = self.wavefront.vertices[v_index][0:3] if has_colors else self.wavefront.vertices[v_index],
                     color = self.wavefront.vertices[v_index][3:] if has_colors else (),
+                    t_index = t_index if has_vt and t_index < len(self.tex_coords) else (),
                     uv = self.tex_coords[t_index] if has_vt and t_index < len(self.tex_coords) else (),
+                    n_index = n_index if has_vn and  n_index < len(self.normals) else (),
                     normal = self.normals[n_index] if has_vn and n_index < len(self.normals) else ()
                 )
 
