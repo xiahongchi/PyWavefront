@@ -308,7 +308,7 @@ class ObjParser(Parser):
         """
 
         # Helper tuple and function
-        Vertex = namedtuple('Vertex', 'idx pos color uv normal')
+        Vertex = namedtuple('Vertex', 'idx pos color t_index uv n_index normal')
         def emit_vertex(vertex):
             # Just yield all the values except for the index
             yield vertex.t_index
