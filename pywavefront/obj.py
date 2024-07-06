@@ -313,13 +313,15 @@ class ObjParser(Parser):
             # Just yield all the values except for the index
             yield vertex.t_index
 
-            yield vertex.n_index
 
             for v in vertex.uv:
                 yield v
 
             for v in vertex.color:
                 yield v
+
+            yield vertex.n_index
+
 
             for v in vertex.normal:
                 yield v
